@@ -1,5 +1,6 @@
 import { effect } from "../effect"
 import { reactive } from "../reactive"
+import { vi } from 'vitest'
 
 describe('effect', () => {
   it('happy pass', () => {
@@ -22,14 +23,46 @@ describe('effect', () => {
   it('should return runner when call effect', ()=>{
     let age = 18
 
-    const runer = effect(()=>{
+    const runner = effect(()=>{
       age++
       return 'age'
     })
     
     expect(age).toBe(19)
-    const res = runer()
+    const res = runner()
     expect(age).toBe(20)
     expect(res).toBe('age')
+  })
+
+  it('scheduler', ()=>{
+    // 1. effect function receive second param options
+    // 2. scheduler is a function
+    // 3. effect first call will get the fn call
+    // 4. obj.foo updated, the fn will not call, scheduler will call, trigger
+    // 5. effect return function call, fn will call, return the fn
+
+    let dummy
+    let run
+
+    const scheduler = vi.fn(() => {
+      run = runner
+    })
+
+    const obj = reactive({foo: 1})
+    const runner = effect(()=>{
+      dummy = obj.foo
+    }, { scheduler })
+
+    expect(scheduler).not.toHaveBeenCalled()
+    expect(dummy).toBe(1)
+
+    obj.foo++
+
+    expect(scheduler).toHaveBeenCalledTimes(1)
+    expect(dummy).toBe(1)
+
+    run()
+    expect(scheduler).toHaveBeenCalledTimes(1)
+    expect(dummy).toBe(2)
   })
 })
