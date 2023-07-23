@@ -84,4 +84,19 @@ describe('effect', () => {
     runner()
     expect(dummy).toBe(3)
   })
+
+  it("onStop", ()=>{
+    let dummy
+
+    const obj = reactive({foo: 1})
+    const onStop = vi.fn()
+    const runner = effect(()=>{
+      dummy = obj.foo
+    },
+    { onStop }
+    )
+
+    stop(runner)
+    expect(onStop).toBeCalledTimes(1)
+  })
 })

@@ -1,12 +1,14 @@
+import { extend } from "../shared"
+
 class ReactiveEffect {
   private _fn: any
   private active = true
-  public scheduler: Function | undefined
   public deps = []
+  public scheduler: Function | undefined
+  public onStop: Function | undefined
 
-  constructor(fn, scheduler?: Function) {
+  constructor(fn) {
     this._fn = fn
-    this.scheduler = scheduler
   }
 
   run() {
@@ -17,6 +19,9 @@ class ReactiveEffect {
   stop(){
     if(this.active){
       cleanupEffect(this)
+      if(this.onStop){
+        this.onStop()
+      }
 
       this.active = false
     }
@@ -60,19 +65,19 @@ export function trigger(target, key){
   const depsMap = targetMap.get(target)
   const dep = depsMap.get(key)
 
-  for (const ins of dep) {
-    if(ins.scheduler){
-      ins.scheduler()
+  for (const effect of dep) {
+    if(effect.scheduler){
+      effect.scheduler()
     }else {
-      ins.run()
+      effect.run()
     }
   }
 }
 
 let activeEffect: any = null // reactiveEffect instance
 export function effect(fn, options: any = {}){
-  const { scheduler } = options
-  const _effect = new ReactiveEffect(fn, scheduler)
+  const _effect = new ReactiveEffect(fn)
+  extend(_effect, options)
 
   _effect.run()
 
