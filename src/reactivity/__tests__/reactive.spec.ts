@@ -1,7 +1,7 @@
 import { reactive } from "../reactive"
 
 describe("reactive",()=>{
-  it.only("happy path",()=>{
+  it("happy pass",()=>{
     const original = {
       foo: 1
     }

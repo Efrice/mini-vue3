@@ -1,4 +1,4 @@
-import { effect } from "../effect"
+import { effect, stop } from "../effect"
 import { reactive } from "../reactive"
 import { vi } from 'vitest'
 
@@ -64,5 +64,24 @@ describe('effect', () => {
     run()
     expect(scheduler).toHaveBeenCalledTimes(1)
     expect(dummy).toBe(2)
+  })
+
+  it("stop", ()=>{
+    let dummy
+
+    const obj = reactive({foo: 1})
+    const runner = effect(()=>{
+      dummy = obj.foo
+    })
+
+    obj.foo = 2
+    expect(dummy).toBe(2)
+
+    stop(runner)
+    obj.foo = 3
+    expect(dummy).toBe(2)
+
+    runner()
+    expect(dummy).toBe(3)
   })
 })
