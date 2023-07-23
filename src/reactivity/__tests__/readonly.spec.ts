@@ -1,4 +1,4 @@
-import { isReadonly, readonly } from "../reactive"
+import { readonly, isReadonly, isProxy } from "../reactive"
 
 describe("readonly",()=>{
   it("happy pass",()=>{
@@ -11,6 +11,8 @@ describe("readonly",()=>{
 
     expect(isReadonly(observed)).toBe(true)
     expect(isReadonly(original)).toBe(false)
+
+    expect(isProxy(observed)).toBe(true)
   })
 
   it("should warn when set",()=>{
