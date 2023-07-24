@@ -1,14 +1,15 @@
 import { extend } from "../shared"
 
-class ReactiveEffect {
+export class ReactiveEffect {
   private _fn: any
   private active = true
   public deps = []
   public scheduler: Function | undefined
   public onStop: Function | undefined
 
-  constructor(fn) {
+  constructor(fn, scheduler?) {
     this._fn = fn
+    this.scheduler = scheduler
   }
 
   run() {
