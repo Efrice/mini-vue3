@@ -14,3 +14,7 @@ const hasOwnProperty = Object.prototype.hasOwnProperty
 export const hasOwn = (obj: Object | Array<any>, key: string): boolean => hasOwnProperty.call(obj, key)
 
 export const equal = (value1: any, value2: any): boolean => Object.is(value1, value2)
+
+const camelize = (event: string) => event.replace(/-(\w)/g, (_, c: string) => c.toUpperCase())
+const capitalize = (event: string): string => event && event[0].toUpperCase() + event.slice(1)
+export const onEvent = (event: string): string => event ? 'on' + capitalize(camelize(event)) : ''
