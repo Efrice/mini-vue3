@@ -9,6 +9,7 @@ export const isString = (val: any): boolean => typeof val === 'string'
 export const isObject = (val: any): boolean => {
   return val !== null && typeof val === 'object'
 }
+export const isFunction = (val: any): boolean => typeof val === 'function'
 
 const hasOwnProperty = Object.prototype.hasOwnProperty
 export const hasOwn = (obj: Object | Array<any>, key: string): boolean => hasOwnProperty.call(obj, key)

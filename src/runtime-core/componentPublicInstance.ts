@@ -1,7 +1,8 @@
 import { hasOwn } from "../shared"
 
 const publicPropertiesMap = {
-  $el: i => i.vnode.el
+  $el: i => i.vnode.el,
+  $slots: i => i.slots
 }
 
 export const publicInstanceHandler = {
@@ -14,8 +15,9 @@ export const publicInstanceHandler = {
       return props[key]
     }
 
-    if(key === '$el'){
-      return publicPropertiesMap['$el'](instance)
+    const publicGetter = publicPropertiesMap[key]
+    if(publicGetter){
+      return publicGetter(instance)
     }
   }
 }
