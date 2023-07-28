@@ -1,4 +1,4 @@
-import { getCurrentInstance } from ".";
+import { getCurrentInstance } from "./component";
 import { isFunction } from "../shared";
 
 export function provide(key: string, value: string){
