@@ -4,6 +4,7 @@ import { createComponentInstance, setupComponent } from "./component"
 import { Fragment, Text } from "./vnode"
 import { insert as domInsert, remove as domRemove } from '../runtime-dom'
 import { getSequence } from './diff'
+import { shouldComponentUpdate } from "./componentUpdate"
 
 export function render(vnode, container){
   patch(null, vnode, container)
@@ -122,7 +123,6 @@ function patchKeyedChildren(c1, c2, container, parentComponent, anchor) {
     e1--
     e2--
   }
-  console.log(i, e1, e2)
 
   // i e1 e2
   if(i > e1){
@@ -264,18 +264,34 @@ function mountChildren(vnode, container, parentComponent, anchor) {
 }
 
 function processComponent(n1, n2, container, parentComponent, anchor) {
-  mountComponent(n1, n2, container, parentComponent, anchor)
+  if(!n1){
+    mountComponent(n2, container, parentComponent, anchor)
+  }else {
+    patchComponent(n1, n2)
+  }
 }
 
-function mountComponent(n1, n2: any, container: any, parentComponent, anchor) {
-  const instance = createComponentInstance(n2, parentComponent)
+function patchComponent(n1, n2) {
+  const instance = n2.component = n1.component
+
+  if(shouldComponentUpdate(n1, n2)){
+    instance.next = n2
+    instance.update()
+  }else {
+    n2.el = n1.el
+    instance.vnode = n2
+  }
+}
+
+function mountComponent(n2: any, container: any, parentComponent, anchor) {
+  const instance = n2.component = createComponentInstance(n2, parentComponent)
 
   setupComponent(instance)
   setupRenderEffect(instance, n2, container, anchor)
 }
 
 function setupRenderEffect(instance, vnode, container, anchor) {
-  effect(()=>{
+  instance.update = effect(()=>{
     if(!instance.isMounted){
       const { proxy } = instance
       const subTree = instance.render.call(proxy)
@@ -287,6 +303,12 @@ function setupRenderEffect(instance, vnode, container, anchor) {
 
       instance.isMounted = true
     }else {
+      const { next, vnode } = instance
+      if(next){
+        next.el = vnode.el
+        updateComponentPreRender(instance, next)
+      }
+
       const { proxy } = instance
       const subTree = instance.render.call(proxy)
       const prevSubTree = instance.subTree
@@ -297,4 +319,11 @@ function setupRenderEffect(instance, vnode, container, anchor) {
       vnode.el = subTree.el
     }
   })
+}
+
+function updateComponentPreRender(instance, next) {
+  instance.vnode = next
+  instance.next = null
+
+  instance.props = next.props
 }

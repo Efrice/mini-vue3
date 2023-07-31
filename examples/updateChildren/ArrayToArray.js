@@ -148,23 +148,39 @@ import { h } from '../../lib/mini-vue3.esm.js'
 // a b (c d e z) f g
 // a b (d c y e) f g
 
+// export const prevChildren = [
+//   h('p', {key: "A"}, "A"),
+//   h('p', {key: "B"}, "B"),
+//   h('p', {key: "C"}, "C"),
+//   h('p', {key: "D"}, "D"),
+//   h('p', {key: "Z"}, "Z"),
+//   h('p', {key: "F"}, "F"),
+//   h('p', {key: "G"}, "G")
+// ]
+
+// export const nextChildren = [
+//   h('p', {key: "A", id: 'a'}, "A"),
+//   h('p', {key: "B"}, "B"),
+//   h('p', {key: "D"}, "D"),
+//   h('p', {key: "C"}, "C"),
+//   h('p', {key: "Y"}, "Y"),
+//   h('p', {key: "E"}, "E"),
+//   h('p', {key: "F"}, "F"),
+//   h('p', {key: "G"}, "G")
+// ]
+
+// fix
+
 export const prevChildren = [
   h('p', {key: "A"}, "A"),
+  h('p', {}, "C"),
   h('p', {key: "B"}, "B"),
-  h('p', {key: "C"}, "C"),
-  h('p', {key: "D"}, "D"),
-  h('p', {key: "Z"}, "Z"),
-  h('p', {key: "F"}, "F"),
-  h('p', {key: "G"}, "G")
+  h('p', {key: "D"}, "D")
 ]
 
 export const nextChildren = [
-  h('p', {key: "A", id: 'a'}, "A"),
+  h('p', {key: "A"}, "A"),
   h('p', {key: "B"}, "B"),
-  h('p', {key: "D"}, "D"),
-  h('p', {key: "C"}, "C"),
-  h('p', {key: "Y"}, "Y"),
-  h('p', {key: "E"}, "E"),
-  h('p', {key: "F"}, "F"),
-  h('p', {key: "G"}, "G")
+  h('p', {}, "C"),
+  h('p', {key: "D"}, "D")
 ]
