@@ -5,6 +5,7 @@ import { Fragment, Text } from "./vnode"
 import { insert as domInsert, remove as domRemove } from '../runtime-dom'
 import { getSequence } from './diff'
 import { shouldComponentUpdate } from "./componentUpdate"
+import { queueJobs } from "./scheduler"
 
 export function render(vnode, container){
   patch(null, vnode, container)
@@ -317,6 +318,10 @@ function setupRenderEffect(instance, vnode, container, anchor) {
       patch(prevSubTree, subTree, container, instance, anchor)
   
       vnode.el = subTree.el
+    }
+  }, {
+    scheduler: () => {
+      queueJobs(instance.update)
     }
   })
 }
