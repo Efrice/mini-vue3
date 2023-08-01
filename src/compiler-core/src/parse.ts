@@ -37,8 +37,8 @@ function parseChildren(context, ancestors){
 
 function isEnd(context, ancestors) {
   if(ancestors.length > 0 && context.source.startsWith('</')){
-    for (let i = ancestors.length - 1; i >= 0; i++) {
-      const tag = ancestors[i];
+    for (let i = ancestors.length - 1; i >= 0; i--) {
+      const tag = ancestors[i]
       if(startsWithEndTagOpen(context.source, tag)){
         return true
       }
