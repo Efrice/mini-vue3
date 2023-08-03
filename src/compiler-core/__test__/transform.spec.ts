@@ -2,8 +2,8 @@ import { NodeTypes } from "../src/ast"
 import { baseParse } from "../src/parse"
 import { transform } from "../src/transform"
 
-describe('tranform', () => {
-  it('happy pass', () => {
+describe('transform', () => {
+  it.only('happy pass', () => {
     const ast = baseParse('<div>hi, {{ message }}</div>')
     const plugin = node => {
       if(node.type === NodeTypes.TEXT){

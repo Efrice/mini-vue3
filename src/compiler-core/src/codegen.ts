@@ -1,3 +1,4 @@
+import { isString } from "../../shared"
 import { NodeTypes } from "./ast"
 import { CREATE_ELEMENT_VNODE, TO_DISPLAY_STRING, helperMapName } from "./runtimeHelpers"
 
@@ -59,7 +60,21 @@ function genNode(node, context) {
     case NodeTypes.ELEMENT:
       genElement(node, context)
       break
+    case NodeTypes.COMPOUND_EXPRESSION:
+      genCompoundExpression(node, context)
+      break
   }
+}
+
+function genCompoundExpression(node, context) {
+  const { push } = context
+  node.children.forEach(child => {
+    if(isString(child)){
+      push(child)
+    }else {
+      genNode(child, context)
+    }
+  })
 }
 
 function genText(node, context) {
@@ -81,6 +96,10 @@ function genExpression(node, context) {
 
 function genElement(node, context) {
   const { push, helper } = context
-  const { tag } = node
-  push(`${helper(CREATE_ELEMENT_VNODE)}("${tag}")`)
+  const { tag, children } = node
+  push(`${helper(CREATE_ELEMENT_VNODE)}('${tag}', null, `)
+  children.forEach(child => {
+    genNode(child, context)
+  })
+  push(')')
 }

@@ -1,5 +1,5 @@
 import { NodeTypes } from "./ast";
-import { CREATE_ELEMENT_VNODE, TO_DISPLAY_STRING } from "./runtimeHelpers";
+import { TO_DISPLAY_STRING } from "./runtimeHelpers";
 
 export function transform(root, options = {}){
   const context = createTransformContext(root, options)
@@ -27,18 +27,24 @@ function createRootCodegen(root) {
 }
 
 function traverseNode(root, context) {
-  context.nodeTransforms.forEach(plugin => plugin(root))
+  const exitFns: any[] = []
+  context.nodeTransforms.forEach(plugin => {
+    const exitFn = plugin(root, context)
+    exitFn && exitFns.push(exitFn)
+  })
 
   switch (root.type){
     case NodeTypes.INTERPOLATION:
       context.helper(TO_DISPLAY_STRING)
       break
     case NodeTypes.ROOT:
-      root.children.forEach(node => traverseNode(node, context))
-      break
     case NodeTypes.ELEMENT:
-      context.helper(CREATE_ELEMENT_VNODE)
       root.children.forEach(node => traverseNode(node, context))
       break
+  }
+
+  let i = exitFns.length
+  while(i--){
+    exitFns[i]()
   }
 }

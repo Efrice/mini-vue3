@@ -1,7 +1,9 @@
 import { generate } from "../src/codegen"
 import { baseParse } from "../src/parse"
 import { transform } from "../src/transform"
+import { transformsElement } from "../src/transforms/transformElement"
 import { transformExpression } from "../src/transforms/transformExpression"
+import { transformText } from "../src/transforms/trnasformText"
 
 describe("codegen", () => {
   it("string", () => {
@@ -28,16 +30,16 @@ describe("codegen", () => {
   })
 
   it("element", () => {
-    const ast = baseParse("<div></div>")
+    const ast = baseParse("<div>hi, {{ message }}</div>")
     transform(ast, {
-      nodeTransforms: []
-    })
+      nodeTransforms: [ transformExpression, transformText, transformsElement ]
+    }) 
   
     const { code } = generate(ast)
 
     expect(code).toMatchInlineSnapshot(`
-      "const { createElementVNode: _createElementVNode } = Vue
-      return function render(_ctx, _cache)return _createElementVNode(\\"div\\")}"
+      "const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode } = Vue
+      return function render(_ctx, _cache)return _createElementVNode('div', null, 'hi,' + _toDisplayString(_ctx.message))}"
     `)
   })
 })
