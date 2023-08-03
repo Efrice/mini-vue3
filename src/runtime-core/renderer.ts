@@ -289,7 +289,7 @@ export function createRenderer(options){
     instance.update = effect(()=>{
       if(!instance.isMounted){
         const { proxy } = instance
-        const subTree = instance.render.call(proxy)
+        const subTree = instance.render.call(proxy, proxy)
         instance.subTree = subTree
     
         patch(null, subTree, container, instance)
@@ -305,7 +305,7 @@ export function createRenderer(options){
         }
 
         const { proxy } = instance
-        const subTree = instance.render.call(proxy)
+        const subTree = instance.render.call(proxy, proxy)
         const prevSubTree = instance.subTree
         instance.subTree = subTree
     
@@ -328,6 +328,7 @@ export function createRenderer(options){
   }
 
   return {
+    render,
     createApp: createAppAPI(render)
   }
 }

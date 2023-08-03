@@ -14,7 +14,7 @@ export function generate(ast){
   const signature = args.join(', ')
 
   push(`function ${functionName}(${signature})`)
-  push('return ')
+  push('{ return ')
   genNode(ast.codegenNode, context)
 
   push('}')
