@@ -87,7 +87,7 @@ describe("Parse", ()=>{
     )
   })
 
-  it.only("should throw error when lack end tag", () => {
+  it("should throw error when lack end tag", () => {
     expect(() => {
       baseParse("<div><p>hi{{ message }}</div>")
     }).toThrow("lack close tag p")

@@ -1,4 +1,5 @@
 export const enum NodeTypes {
+  ROOT,
   TEXT,
   ELEMENT,
   INTERPOLATION,
