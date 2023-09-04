@@ -1,10 +1,15 @@
-import { h, ref, getCurrentInstance, nextTick } from '../../lib/mini-vue3.esm.js'
+import {
+  h,
+  ref,
+  getCurrentInstance,
+  nextTick,
+} from "../../packages/vue/dist/mini-vue3.esm.js"
 
 export const App = {
-  setup(){
+  setup() {
     const count = ref(1)
     const ins = getCurrentInstance()
-    function changeCount(){
+    function changeCount() {
       for (let i = 0; i < 20; i++) {
         count.value++
       }
@@ -17,17 +22,20 @@ export const App = {
 
     return {
       count,
-      changeCount
+      changeCount,
     }
   },
 
-  render(){
+  render() {
     return h(
-      'div',
+      "div",
       {
-        id: 'root',
+        id: "root",
       },
-      [h('p', { onClick: this.changeCount }, 'changeCount'), h('p', {}, `count -- ${this.count}`)]
+      [
+        h("p", { onClick: this.changeCount }, "changeCount"),
+        h("p", {}, `count -- ${this.count}`),
+      ]
     )
-  }
+  },
 }

@@ -1,19 +1,19 @@
-import { h, ref } from '../../lib/mini-vue3.esm.js'
-import { Child } from './Child.js'
+import { h, ref } from "../../packages/vue/dist/mini-vue3.esm.js"
+import { Child } from "./Child.js"
 
 export const App = {
-  name: 'App',
-  setup(){
-    const msg = ref('123')
+  name: "App",
+  setup() {
+    const msg = ref("123")
     const count = ref(1)
 
     window.msg = msg
 
-    function changeChildProps(){
-      msg.value = '456'
+    function changeChildProps() {
+      msg.value = "456"
     }
 
-    function changeCount(){
+    function changeCount() {
       count.value++
     }
 
@@ -21,39 +21,31 @@ export const App = {
       msg,
       changeChildProps,
       count,
-      changeCount
+      changeCount,
     }
   },
 
-  render(){
-    return h('div',{},[
-      h('div', {}, '你好'),
+  render() {
+    return h("div", {}, [
+      h("div", {}, "你好"),
       h(
-        'button',
+        "button",
         {
-          onClick: this.changeChildProps
+          onClick: this.changeChildProps,
         },
-        'changeChildProps'
+        "changeChildProps"
       ),
+      h(Child, {
+        msg: this.msg,
+      }),
       h(
-        Child,
+        "button",
         {
-          msg: this.msg
-        }
-      ),
-      h(
-        'button',
-        {
-          onClick: this.changeCount
+          onClick: this.changeCount,
         },
-        'changeComt'
+        "changeComt"
       ),
-      h(
-        'p',
-        {},
-        'count: ' + this.count
-      )
-    ]
-    )
+      h("p", {}, "count: " + this.count),
+    ])
   },
 }

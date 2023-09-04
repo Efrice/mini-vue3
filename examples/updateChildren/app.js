@@ -1,28 +1,28 @@
-import { h, ref } from '../../lib/mini-vue3.esm.js'
-import { prevChildren, nextChildren } from './ArrayToArray.js'
+import { h, ref } from "../../packages/vue/dist/mini-vue3.esm.js"
+import { prevChildren, nextChildren } from "./ArrayToArray.js"
 
 export const App = {
-  setup(){
+  setup() {
     const isChanged = ref(false)
 
-    function handleChange(){
-    	console.log('handleChange:')
+    function handleChange() {
+      console.log("handleChange:")
       isChanged.value = true
     }
 
     return {
       isChanged,
-      change: handleChange
+      change: handleChange,
     }
   },
 
-  render(){
+  render() {
     return h(
-      'div',
+      "div",
       {
-        id: 'root',
+        id: "root",
         onClick: this.change,
-        class: ['red', 'hard']
+        class: ["red", "hard"],
       },
       // this.isChanged ? 'New Text' : 'Old Text'
       // this.isChanged ? 'New Text' : [h('p', {}, 'Hello'),h('p', {}, 'World')]

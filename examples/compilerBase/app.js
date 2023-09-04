@@ -1,7 +1,7 @@
 export const App = {
   name: "App",
   template: `<div>hello, {{ message }}</div>`,
-  setup(){
+  setup() {
     return {
       message: 'world'
     }

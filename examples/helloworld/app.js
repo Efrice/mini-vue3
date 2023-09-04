@@ -1,15 +1,15 @@
-import { h } from '../../lib/mini-vue3.esm.js'
-import { Foo } from './Foo.js'
+import { h } from "../../packages/vue/dist/mini-vue3.esm.js"
+import { Foo } from "./Foo.js"
 
 export const App = {
-  render(){
+  render() {
     return h(
-      'div',
+      "div",
       {
-        id: 'root',
-        class: ['red', 'hard']
+        id: "root",
+        class: ["red", "hard"],
       },
-      [h('p', { class: 'red' }, 'hi'), h(Foo, { count: 1 })]
+      [h("p", { class: "red" }, "hi"), h(Foo, { count: 1 })]
       // [h(
       //   'p',
       //   {
@@ -17,8 +17,8 @@ export const App = {
       //     onClick(){
       //       console.log(this)
       //     }
-      //   }, 
-      //   'hi'), 
+      //   },
+      //   'hi'),
       //   h('p',
       //    {
       //     class: ['red', 'blue'],
@@ -30,9 +30,9 @@ export const App = {
     )
   },
 
-  setup(){
+  setup() {
     return {
-      msg: 'world1'
+      msg: "world1",
     }
-  }
+  },
 }

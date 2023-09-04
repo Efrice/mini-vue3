@@ -1,20 +1,20 @@
-import { h, getCurrentInstance } from '../../lib/mini-vue3.esm.js'
-import { Foo } from './Foo.js'
+import { h, getCurrentInstance } from "../../packages/vue/dist/mini-vue3.esm.js"
+import { Foo } from "./Foo.js"
 
 export const App = {
-  render(){
+  render() {
     return h(
-      'div',
+      "div",
       {
-        id: 'root',
-        class: ['red', 'hard']
+        id: "root",
+        class: ["red", "hard"],
       },
-      [h('p', { class: 'red' }, 'app'), h(Foo)]
+      [h("p", { class: "red" }, "app"), h(Foo)]
     )
   },
 
-  setup(){
+  setup() {
     const instance = getCurrentInstance()
-    console.log('App instance:', instance)
-  }
+    console.log("App instance:", instance)
+  },
 }

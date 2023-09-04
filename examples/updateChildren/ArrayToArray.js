@@ -1,4 +1,4 @@
-import { h } from '../../lib/mini-vue3.esm.js'
+import { h } from "../../packages/vue/dist/mini-vue3.esm.js"
 
 // 简单场景 单支变换
 // 1、老的比新的长 右侧 删除
@@ -172,15 +172,15 @@ import { h } from '../../lib/mini-vue3.esm.js'
 // fix
 
 export const prevChildren = [
-  h('p', {key: "A"}, "A"),
-  h('p', {}, "C"),
-  h('p', {key: "B"}, "B"),
-  h('p', {key: "D"}, "D")
+  h("p", { key: "A" }, "A"),
+  h("p", {}, "C"),
+  h("p", { key: "B" }, "B"),
+  h("p", { key: "D" }, "D"),
 ]
 
 export const nextChildren = [
-  h('p', {key: "A"}, "A"),
-  h('p', {key: "B"}, "B"),
-  h('p', {}, "C"),
-  h('p', {key: "D"}, "D")
+  h("p", { key: "A" }, "A"),
+  h("p", { key: "B" }, "B"),
+  h("p", {}, "C"),
+  h("p", { key: "D" }, "D"),
 ]

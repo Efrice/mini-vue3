@@ -1,47 +1,47 @@
-import { createApp, h, provide, inject } from '../../lib/mini-vue3.esm.js'
+import { createApp, h, provide, inject } from "../../packages/vue/dist/mini-vue3.esm.js"
 
 const Provide = {
-  name: 'Provide',
-  setup(){
-    provide('foo', 'fooVal')
-    provide('bar', 'barVal')
+  name: "Provide",
+  setup() {
+    provide("foo", "fooVal")
+    provide("bar", "barVal")
   },
-  render(){
-    return h('div', {}, [h('p', {}, 'Provide'), h(Provide2)])
-  }
+  render() {
+    return h("div", {}, [h("p", {}, "Provide"), h(Provide2)])
+  },
 }
 
 const Provide2 = {
-  name: 'Provide2',
-  setup(){
-    provide('foo', 'fooVal2')
+  name: "Provide2",
+  setup() {
+    provide("foo", "fooVal2")
 
-    const foo = inject('foo')
+    const foo = inject("foo")
     return {
-      foo
+      foo,
     }
   },
-  render(){
-    return h('div', {}, [h('p', {}, `Provide2 -- ${this.foo}`), h(Inject)])
-  }
+  render() {
+    return h("div", {}, [h("p", {}, `Provide2 -- ${this.foo}`), h(Inject)])
+  },
 }
 
 const Inject = {
-  name: 'Inject',
-  setup(){
-    const foo = inject('foo')
-    const bar = inject('bar')
-    const baz = inject('baz', 'baz')
+  name: "Inject",
+  setup() {
+    const foo = inject("foo")
+    const bar = inject("bar")
+    const baz = inject("baz", "baz")
 
     return {
       foo,
       bar,
-      baz
+      baz,
     }
   },
-  render(){
-    return h('div', {}, `Inject -- ${this.foo} -- ${this.bar} -- ${this.baz}`)
-  }
+  render() {
+    return h("div", {}, `Inject -- ${this.foo} -- ${this.bar} -- ${this.baz}`)
+  },
 }
 
-createApp(Provide).mount('#app')
+createApp(Provide).mount("#app")
