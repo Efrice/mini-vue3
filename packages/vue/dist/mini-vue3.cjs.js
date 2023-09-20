@@ -501,6 +501,7 @@ function shouldComponentUpdate(n1, n2) {
 }
 
 const queue = [];
+const activePreFlushCbs = [];
 let isFlushPending = false;
 const p = Promise.resolve();
 function nextTick(fn) {
@@ -520,9 +521,15 @@ function queueFlush() {
 }
 function flushJobs() {
     isFlushPending = false;
+    flushPreFlushCbs();
     let job;
     while ((job = queue.shift())) {
         job && job();
+    }
+}
+function flushPreFlushCbs() {
+    for (let i = 0; i < activePreFlushCbs.length; i++) {
+        activePreFlushCbs[i]();
     }
 }
 
@@ -682,7 +689,10 @@ function createRenderer(options) {
                         }
                     }
                 }
-                if (newIndex) {
+                if (newIndex === undefined) {
+                    remove(prevChild.el);
+                }
+                else {
                     if (newIndex >= newIndexMax) {
                         newIndexMax = newIndex;
                     }
@@ -693,16 +703,13 @@ function createRenderer(options) {
                     newIndexToOldIndexMap[newIndex - s2] = k + 1;
                     patched++;
                 }
-                else {
-                    remove(prevChild.el);
-                }
             }
             const increasingNewIndexSequence = moved
                 ? getSequence(newIndexToOldIndexMap)
                 : [];
             let j = increasingNewIndexSequence.length - 1;
             for (let i = toBePatched - 1; i >= 0; i--) {
-                anchor = c2[i + s2 + 1].el;
+                anchor = i + s2 + 1 < l2 ? c2[i + s2 + 1].el : null;
                 if (newIndexToOldIndexMap[i] === 0) {
                     patch(null, c2[i + s2], container, parentComponent, anchor);
                 }

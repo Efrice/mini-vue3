@@ -207,7 +207,9 @@ export function createRenderer(options) {
           }
         }
 
-        if (newIndex) {
+        if (newIndex === undefined) {
+          remove(prevChild.el)
+        } else {
           if (newIndex >= newIndexMax) {
             newIndexMax = newIndex
           } else {
@@ -216,8 +218,6 @@ export function createRenderer(options) {
           patch(prevChild, c2[newIndex], container, parentComponent, anchor)
           newIndexToOldIndexMap[newIndex - s2] = k + 1
           patched++
-        } else {
-          remove(prevChild.el)
         }
       }
 
@@ -227,7 +227,7 @@ export function createRenderer(options) {
       let j = increasingNewIndexSequence.length - 1
 
       for (let i = toBePatched - 1; i >= 0; i--) {
-        anchor = c2[i + s2 + 1].el
+        anchor = i + s2 + 1 < l2 ? c2[i + s2 + 1].el : null
         if (newIndexToOldIndexMap[i] === 0) {
           patch(null, c2[i + s2], container, parentComponent, anchor)
         }

@@ -184,3 +184,15 @@ export const nextChildren = [
   h("p", {}, "C"),
   h("p", { key: "D" }, "D"),
 ]
+
+// export const prevChildren = [
+//   h("p", { key: "A" }, "A"),
+//   h("p", { key: "B" }, "B"),
+//   h("p", { key: "C" }, "C"),
+// ]
+
+// export const nextChildren = [
+//   h("p", { key: "C" }, "C"),
+//   h("p", { key: "A" }, "A"),
+//   h("p", { key: "B" }, "B"),
+// ]
